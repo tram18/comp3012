@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("partials/head.ejs") %>
+  </head>
+  <body>
+    <%- include("partials/header.ejs") %>
+
+    <form id="tip-form" class="tip-form" method="post" action="/tips">
+      <input type="text" name="text" placeholder="Enter a New tip:" />
+      <button type="submit">Add Tip</button>
+    </form>
+
+    <section id="tips">
+      <% tips.forEach((tip) => { %>
+      <section class="tip-card" data-id="<%= tip.id %>">
+        <p><%= tip.text %></p>
+        <p>Likes: <span class="likes"><%= tip.likes %></span></p>
+        <div class="TipActions">
+          <form
+            method="post"
+            action="/tips/<%= tip.id %>/like"
+            style="display: inline"
+          >
+            <button type="submit">👍</button>
+          </form>
+
+          <form
+            method="post"
+            action="/tips/<%= tip.id %>/dislike"
+            style="display: inline"
+          >
+            <button type="submit">👎</button>
+          </form>
+
+          <form
+            method="post"
+            action="/tips/<%= tip.id %>/delete"
+            style="display: inline"
+          >
+            <button type="submit">🗑️</button>
+          </form>
+        </div>
+      </section>
+      <% })%>
+    </section>
+  </body>
+</html>

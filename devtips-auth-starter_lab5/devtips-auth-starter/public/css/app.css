@@ -1,0 +1,78 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  color: #3b3b3b;
+  margin-bottom: 2rem;
+}
+
+/* TipForm */
+form.tip-form {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+input[type="text"] {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 300px;
+}
+
+button {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  margin-right: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #2e2e35;
+}
+
+/* Tip List */
+.tip-card {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tip-card p {
+  margin: 0.5rem 0;
+}
+
+.TipActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* For Accessibility */
+a:focus {
+  outline: 4px solid rgb(0, 123, 255);
+}
+
+button:focus {
+  outline: 4px solid rgb(0, 123, 255);
+}
+
+input:focus {
+  outline: 4px solid rgb(0, 123, 255);
+}
