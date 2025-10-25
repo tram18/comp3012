@@ -4,6 +4,21 @@
       <h1 class="mb-3">
         <img src="/secure-icon.png" alt="icon" width="20%" />
       </h1>
+
+      <% if (messages && messages.length > 0) { %>
+      <div class="error" id="error-msg" style="color: red; font-size: 20px">
+        <%= messages[0] %>
+      </div>
+      <% } %>
+
+      <script>
+        // Làm message biến mất sau 3 giây
+        setTimeout(() => {
+          const msg = document.getElementById("error-msg");
+          if (msg) msg.style.display = "none";
+        }, 1000);
+      </script>
+
       <h2>Login</h2>
       <form action="/auth/login" method="POST">
         <div class="form-group">
