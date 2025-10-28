@@ -4,6 +4,21 @@
       <h1 class="mb-3">
         <img src="/secure-icon.png" alt="icon" width="20%" />
       </h1>
+
+      <% if (messages && messages.length > 0) { %>
+      <div class="error" id="error-msg" style="color: red; font-size: 20px">
+        <%= messages[0] %>
+      </div>
+      <% } %>
+
+      <script>
+        // message disappear after 1.5 second
+        setTimeout(() => {
+          const msg = document.getElementById("error-msg");
+          if (msg) msg.style.display = "none";
+        }, 1500);
+      </script>
+
       <h2>Login</h2>
       <form action="/auth/login" method="POST">
         <div class="form-group">
@@ -27,6 +42,17 @@
           />
         </div>
         <button type="submit" class="btn btn-primary btn-block">Login</button>
+      </form>
+      <p style="margin: 0">OR</p>
+      <!-- Github OAuth login -->
+      <form action="/auth/githubLogin" method="get">
+        <button
+          type="submit"
+          class="btn btn-primary btn-block"
+          style="background-color: #5a6268"
+        >
+          Login with Github
+        </button>
       </form>
       <p class="mt-4">New User? <a href="/auth/register">Register</a></p>
       <p>Forgot Password? <a href="/auth/forgot">Reset</a></p>

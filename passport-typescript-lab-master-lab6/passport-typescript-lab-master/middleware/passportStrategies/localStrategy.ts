@@ -1,34 +1,74 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { getUserByEmailIdAndPassword, getUserById} from "../../controllers/userController";
-import { PassportStrategy } from '../../interfaces/index';
+import {
+  getUserByEmailIdAndPassword,
+  getUserById,
+} from "../../controllers/userController";
+import { PassportStrategy } from "../../interfaces/index";
+
+// const localStrategy = new LocalStrategy(
+//   {
+//     usernameField: "email",
+//     passwordField: "password",
+//   },
+//   async (email, password, done) => {
+//     const user = await getUserByEmailIdAndPassword(email, password);
+//     return user
+//       ? done(null, user)
+//       : done(null, false, {
+//           message: "Your login details are not valid. Please try again",
+//         });
+//   }
+// );
 
 const localStrategy = new LocalStrategy(
   {
     usernameField: "email",
     passwordField: "password",
   },
-  (email, password, done) => {
-    const user = getUserByEmailIdAndPassword(email, password);
-    return user
-      ? done(null, user)
-      : done(null, false, {
-          message: "Your login details are not valid. Please try again",
+  async (email, password, done) => {
+    //ask database if user exists
+    try {
+      const user = await getUserByEmailIdAndPassword(email, password);
+
+      if (user === null) {
+        return done(null, false, { message: "Password is incorrect" });
+      }
+
+      if (user === undefined) {
+        return done(null, false, {
+          message: "Couldn't find user with email: " + email,
         });
+      }
+
+      return done(null, user);
+    } catch (error) {
+      console.error("Error in localStrategy:", (error as Error).message);
+      return done(null, false, { message: "Error logging in" });
+    }
   }
 );
 
 /*
-FIX ME (types) 😭
+5.FIX ME (types) 😭
 */
-passport.serializeUser(function (user: any, done: any) {
+// create a session (store id) for the user
+// user is stored in req.user { id: 2, name: "Johnny Doe", email: "johnny123@gmail.com", password: "johnny123!", }
+passport.serializeUser(function (
+  user: any,
+  done: (err: any, id?: number) => void
+) {
   done(null, user.id);
 });
 
 /*
-FIX ME (types) 😭
+6. FIX ME (types) 😭
 */
-passport.deserializeUser(function (id: any, done: any) {
+// get user from the session using the id stored, and attach to req.user
+passport.deserializeUser(function (
+  id: number,
+  done: (err: any, id?: any) => void
+) {
   let user = getUserById(id);
   if (user) {
     done(null, user);
@@ -38,7 +78,7 @@ passport.deserializeUser(function (id: any, done: any) {
 });
 
 const passportLocalStrategy: PassportStrategy = {
-  name: 'local',
+  name: "local",
   strategy: localStrategy,
 };
 
