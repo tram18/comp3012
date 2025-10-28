@@ -27,8 +27,8 @@ const localStrategy = new LocalStrategy(
     passwordField: "password",
   },
   async (email, password, done) => {
+    //ask database if user exists
     try {
-      // gọi hàm kiểm tra email và password
       const user = await getUserByEmailIdAndPassword(email, password);
 
       if (user === null) {
@@ -52,9 +52,11 @@ const localStrategy = new LocalStrategy(
 /*
 5.FIX ME (types) 😭
 */
+// create a session (store id) for the user
+// user is stored in req.user { id: 2, name: "Johnny Doe", email: "johnny123@gmail.com", password: "johnny123!", }
 passport.serializeUser(function (
   user: any,
-  done: (err: any, id?: any) => void
+  done: (err: any, id?: number) => void
 ) {
   done(null, user.id);
 });
@@ -62,6 +64,7 @@ passport.serializeUser(function (
 /*
 6. FIX ME (types) 😭
 */
+// get user from the session using the id stored, and attach to req.user
 passport.deserializeUser(function (
   id: number,
   done: (err: any, id?: any) => void

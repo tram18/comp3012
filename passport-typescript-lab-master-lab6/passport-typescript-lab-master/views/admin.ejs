@@ -1,0 +1,35 @@
+<h1>Dashboard</h1>
+<p class="welcome">Welcome <%= user.name %></p>
+
+<!-- Session Information -->
+<div class="session-info">
+  <strong>Current Active Sessions:</strong><br /><br />
+
+  <!-- Loop through each session -->
+  <% if (sessions.length === 0) { %>
+  <p>No active sessions found.</p>
+  <% } else { %> <% sessions.forEach(function(session) { %>
+  <div class="session-block">
+    SessionID: <%= session.sessionId %><br />
+    UserID: <%= session.userId %><br />
+
+    <!-- Revoke Session Form -->
+    <form
+      action="/admin/revoke/<%= session.sessionId %>"
+      method="POST"
+      style="display: inline; margin: 0"
+    >
+      <button
+        type="submit"
+        class="revoke-button"
+        onclick="return confirm('Are you sure you want to revoke this session?')"
+      >
+        Revoke Session
+      </button>
+    </form>
+  </div>
+  <% }); %> <% } %>
+</div>
+
+<!-- Back to Dashboard Link -->
+<a href="/dashboard" class="back-link">← Back to Dashboard</a>

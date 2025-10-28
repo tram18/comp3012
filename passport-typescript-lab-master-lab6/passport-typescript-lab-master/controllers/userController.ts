@@ -4,7 +4,7 @@ const getUserByEmailIdAndPassword = (email: string, password: string) => {
   let user = userModel.findOne(email);
 
   if (user) {
-    // email found
+    // email + password found
     if (isUserValid(user, password)) {
       return user;
     }
@@ -15,7 +15,7 @@ const getUserByEmailIdAndPassword = (email: string, password: string) => {
     return undefined;
   }
 
-  return null;
+  return null; // pw incorrect
 };
 const getUserById = (id: any) => {
   let user = userModel.findById(id);
